@@ -1,0 +1,201 @@
+<STYLE TYPE
+
+=
+"text/css"
+>
+
+A {
+    text-decoration: underline;
+    color = #0000FF;
+}
+
+A:link {
+    text-decoration: underline;
+    color = #0000FF;
+}
+
+A:visited {
+    text-decoration: underline;
+    color = #0000FF;
+}
+
+H1 {
+    font-family: verdana, tahoma, arial, helvetica, sans-serif;
+    font-size: 14pt;
+    font-weight: normal;
+    color = #000000;
+}
+
+H2 {
+    font-family: verdana, tahoma, arial, helvetica, sans-serif;
+    font-size: 13pt;
+    font-weight: normal;
+    color = #000000;
+}
+
+H3 {
+    font-family: verdana, tahoma, arial, helvetica, sans-serif;
+    font-size: 12pt;
+    font-weight: normal;
+    color = #000000;
+}
+
+H4 {
+    font-family: verdana, tahoma, arial, helvetica, sans-serif;
+    font-size: 11pt;
+    font-weight: normal;
+    color = #000000;
+}
+
+H5 {
+    font-family: verdana, tahoma, arial, helvetica, sans-serif;
+    font-size: 10pt;
+    font-weight: bold;
+    color = #000000;
+}
+
+H6 {
+    font-family: verdana, tahoma, arial, helvetica, sans-serif;
+    font-size: 9pt;
+    font-weight: bold;
+    color = #000000;
+}
+
+TD {
+    font-family: verdana, tahoma, arial, helvetica, sans-serif;
+    font-size: 10pt;
+    color = #000000;
+}
+
+TH {
+    font-family: verdana, tahoma, arial, helvetica, sans-serif;
+    font-size: 10pt;
+    font-weight: bold;
+}
+
+SELECT {
+    font-family: verdana, tahoma, arial, helvetica, sans-serif;
+    font-size: 12pt;
+    color = #000000;
+}
+
+INPUT {
+    font-family: verdana, tahoma, arial, helvetica, sans-serif;
+    font-size: 12pt;
+    color = #000000;
+}
+
+BLOCKQUOTE {
+    margin-left: 3pt
+}
+
+BODY {
+    font-family: verdana, tahoma, arial, helvetica, sans-serif;
+    font-size: 12pt;
+    color = #000000;
+    background-color: #eeeeee;
+    scrollbar-base-color: #AAAAAA;
+    scrollbar-highlight-color: #BBBBBB;
+    scrollbar-arrow-color: #ffffff;
+    scrollbar-shadow-color: #000000;
+}
+
+#autor
+
+=
+{
+font-size:
+
+6
+pt
+
+}
+
+p.tabueber {
+    font-family: tahoma, arial, helvetica, sans-serif;
+    font-size: 11pt;
+    font-weight: bold;
+    color = #9CCEFF;
+    background-color: #0000AA;
+}
+
+a.tabueber {
+    font-family: tahoma, arial, helvetica, sans-serif;
+    font-size: 11pt;
+    font-weight: bold;
+    color = #9CCEFF;
+    background-color: #0000AA;
+}
+
+a.tree {
+    text-decoration: none;
+    font-family: tahoma, arial, helvetica, sans-serif;
+    font-size: 8pt;
+    font-weight:;
+    color = #000000;
+}
+
+a.tree:visited {
+    text-decoration: none;
+    font-family: tahoma, arial, helvetica, sans-serif;
+    font-size: 8pt;
+    font-weight:;
+    color = #000000;
+}
+
+a.tree:link {
+    text-decoration: none;
+    font-family: tahoma, arial, helvetica, sans-serif;
+    font-size: 8pt;
+    font-weight:;
+    color = #000000;
+}
+
+a.tree:active {
+    text-decoration: none;
+    font-family: tahoma, arial, helvetica, sans-serif;
+    font-size: 8pt;
+    font-weight:;
+    color = #000000;
+}
+
+a.tree:hover {
+    text-decoration: underline overline;
+    font-family: tahoma, arial, helvetica, sans-serif;
+    font-size: 8pt;
+    font-weight:;
+    color = #000000;
+}
+
+p.tree {
+    text-decoration: none;
+    font-family: tahoma, arial, helvetica, sans-serif;
+    font-size: 8pt;
+    font-weight:;
+    color = #000000;
+}
+
+p.zitat1 {
+    font-family: tahoma, arial, helvetica, sans-serif;
+    font-size: 8pt;
+    font-weight: bold;
+    color = #CECECE;
+}
+
+p.zitat2 {
+    font-family: tahoma, arial, helvetica, sans-serif;
+    font-size: 8pt;
+    color = #000000;
+}
+
+p.zitat3 {
+    font-family: tahoma, arial, helvetica, sans-serif;
+    font-size: 8pt;
+    font-weight:;
+    color = #CECECE;
+}
+
+<
+
+/
+STYLE>

@@ -1,0 +1,151 @@
+ ##########################################################
+ #    						          #
+ # PROJEKT LEDERSTEUERSTAND-TEILPROJEKT BUCHUNGEN         #
+ #						          #
+ # README-DATEI						  #
+ # erstellt am: 12.07.05				  #
+ # erstellt von: Ralph Sindlinger			  #
+ # letzte Aenderung: 12.07.05    			  #
+ #							  #
+ ##########################################################
+
+Verwendete Tabellen:
+-------------------
+
+ZUS_KOMMISSION
+
+Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ KOM_SAMMEL_ABNR                                    NUMBER(14)
+ KOM_SAMMEL_RFLG                                    NUMBER(3)
+ KOM_ABNR                                  NOT NULL NUMBER(6)
+ KOM_ART_NR                                NOT NULL NUMBER(10)
+ KOM_CHARG_NR                                       NUMBER(10)
+ KOM_FUNGIZID                                       VARCHAR2(1)
+ KOM_KZ_MF                                          VARCHAR2(1)
+ KOM_WERK_ZUSCHN                                    NUMBER(2)
+ KOM_FABT_ZUSCHN                                    NUMBER(4)
+ KOM_PROG                                           NUMBER(3)
+ KOM_QM_NETTO                              NOT NULL NUMBER(10,2)
+ KOM_QM_BRUTTO                             NOT NULL NUMBER(10,2)
+ KOM_ANZ_TEILE                             NOT NULL NUMBER(5)
+ KOM_REST_KZ                                        VARCHAR2(1)
+ KOM_REST_LAGERORT                                  NUMBER(11)
+ KOM_RESERV_KZ                                      VARCHAR2(1)
+ KOM_RESERV_LAGERORT                                NUMBER(11)
+ KOM_BEMERKUNG                                      VARCHAR2(50)
+ KOM_TAGESMENGE_DAT                                 DATE
+ KOM_KOM_KZ                                NOT NULL VARCHAR2(1)
+ KOM_GEBUCHT_KZ                            NOT NULL VARCHAR2(1)
+ KOM_AB_GEDRUCKT                           NOT NULL VARCHAR2(1)
+ KOM_LAGER_KZ                              NOT NULL VARCHAR2(1)
+ KOM_CUTTER_KZ                             NOT NULL VARCHAR2(1)
+ KOM_MANUELL_KZ                            NOT NULL VARCHAR2(1)
+ KOM_STATUS                                NOT NULL NUMBER(2)
+ KOM_ANLAGE_DAT                            NOT NULL DATE
+ KOM_BNR3                                           NUMBER(6)
+ KOM_ZS_SYS                                NOT NULL NUMBER(2)
+ KOM_KZ_PRAEMIE                                     VARCHAR2(1)
+ KOM_KZ_KORR                                        VARCHAR2(1)
+ KOM_BUCH_MM                                        VARCHAR2(4)
+ KOM_IST_MENGE                                      NUMBER(10)
+ KOM_KZ_EINZEL                                      VARCHAR2(1)
+
+
+ZUS_SAMMEL_KOPF
+
+Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SAK_SANR                                  NOT NULL NUMBER(14)
+ SAK_ARTNR                                 NOT NULL NUMBER(10)
+ SAK_PLATZ                                 NOT NULL VARCHAR2(11)
+ SAK_ZS_SYS                                         NUMBER(2)
+ SAK_CHARG_NR                              NOT NULL NUMBER(10)
+ SAK_LIEF_KKZ                                       VARCHAR2(4)
+ SAK_ZTAG                                           NUMBER(4)
+ SAK_MENGE_IST                                      NUMBER(10,2)
+ SAK_PNR                                            NUMBER(4)
+ SAK_STATUS                                         NUMBER(2)
+ SAK_A_DAT                                          DATE
+ SAK_ZUGEW                                          VARCHAR2(1)
+ SAK_KORR_KZ                                        VARCHAR2(1)
+ SAK_BUCH_MM                                        NUMBER(4)
+
+
+ZUS_KOM_FS
+
+Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ KFS_ABNR                                  NOT NULL NUMBER(6)
+ KFS_ARTNR                                 NOT NULL NUMBER(10)
+ KFS_ORDNR                                          NUMBER(3)
+ KFS_FS                                    NOT NULL VARCHAR2(11)
+ KFS_TR                                             NUMBER(5)
+ KFS_TE                                             NUMBER(6)
+ KFS_DEZI                                           NUMBER(6)
+ KFS_PNR                                            NUMBER(4)
+ KFS_FS_TEXT                                        VARCHAR2(24)
+ KFS_FS_STATUS                                      NUMBER(2)
+
+
+
+SQL-Abfragen 
+------------
+
+Buchung Einzelkommission-IMEZ/H 21:
+
+	UPDATE PLRV11.ZUS_KOMMISSION SET KOM_GEBUCHT_KZ='J',KOM_BUCH_MM='buchungsmonat',KOM_IST_MENGE=menge_ist,
+	KOM_KZ_EINZEL='J' WHERE KOM_ABNR=abNr AND KOM_ART_NR=artNr;
+
+	UPDATE PLRV11.ZUS_SAMMEL_KOPF SET SAK_CHARG_NR=charge,SAK_LIEF_KKZ='lieferant'
+	WHERE SAK_SANR=sammelAbNr;
+
+
+Korrekturbuchung Einzelkommission-IMEZ/K 21:
+
+	UPDATE PLRV11.ZUS_KOMMISSION SET KOM_GEBUCHT_KZ='J',KOM_BUCH_MM='buchungsmonat',KOM_IST_MENGE=rundmenge,
+	KOM_KZ_EINZEL='J',KOM_KZ_KORR='J' WHERE KOM_ABNR=abNr AND KOM_ART_NR=artNr;
+
+	UPDATE PLRV11.ZUS_SAMMEL_KOPF SET SAK_CHARG_NR=charge,SAK_LIEF_KKZ='lieferant'
+	WHERE SAK_SANR=sammelAbNr;
+
+
+Buchung Einzelkommission-LMEZ/H 30,31:
+
+	SELECT KOM_PROG,KOM_QM_NETTO,KOM_QM_BRUTTO,KOM_KZ_EINZEL,KFS_DEZI
+	FROM PLRV11.ZUS_KOMMISSION LEFT JOIN PLRV11.ZUS_KOM_FS ON KOM_ABNR=KFS_ABNR
+	WHERE  KOM_ABNR=abNr AND KOM_ART_NR=artNr AND KFS_ARTNR=artNr  AND KFS_FS='10244100000'
+
+Buchung Sammelkommission-IMEZ/H 21:
+
+	SELECT SUM(KOM_QM_BRUTTO)AS bruttosumme FROM PLRV11.ZUS_KOMMISSION WHERE KOM_SAMMEL_ABNR=sammelAbNr AND
+        KOM_GEBUCHT_KZ<>'J' AND KOM_STATUS=50 AND (KOM_KZ_EINZEL='N' OR KOM_KZ_EINZEL IS NULL);
+
+	SELECT KOM_QM_BRUTTO,KOM_ABNR,KOM_ART_NR FROM PLRV11.ZUS_KOMMISSION WHERE KOM_SAMMEL_ABNR=sammelAbNr AND
+	KOM_GEBUCHT_KZ<>'J' AND KOM_STATUS=50 AND (KOM_KZ_EINZEL='N' OR KOM_KZ_EINZEL IS NULL);
+
+	UPDATE PLRV11.ZUS_KOMMISSION SET KOM_GEBUCHT_KZ='J',KOM_BUCH_MM=buchungsmonat,KOM_IST_MENGE=menge
+        WHERE KOM_SAMMEL_ABNR=sammelAbNr AND KOM_ABNR=komAbNr AND KOM_ART_NR=komArtNr;
+
+	UPDATE PLRV11.ZUS_SAMMEL_KOPF SET SAK_STATUS=30,SAK_BUCH_MM=buchungsmonat,SAK_MENGE_IST=menge
+	WHERE SAK_SANR=sammelAbNr;
+
+
+Korrekturbuchung Sammelkommission IMEZ/K 21:
+
+	SELECT SUM(KOM_QM_BRUTTO)AS bruttosumme FROM PLRV11.ZUS_KOMMISSION WHERE KOM_SAMMEL_ABNR=sammelAbNr AND
+	KOM_GEBUCHT_KZ='J' AND KOM_STATUS=50 AND (KOM_KZ_EINZEL='N' OR KOM_KZ_EINZEL IS NULL);
+
+	SELECT KOM_QM_BRUTTO,KOM_ABNR,KOM_ART_NR FROM PLRV11.ZUS_KOMMISSION WHERE KOM_SAMMEL_ABNR=sammelAbNr AND
+	KOM_GEBUCHT_KZ='J' AND KOM_STATUS=50 AND (KOM_KZ_EINZEL='N' OR KOM_KZ_EINZEL IS NULL);
+
+	UPDATE PLRV11.ZUS_KOMMISSION SET KOM_GEBUCHT_KZ='J',KOM_BUCH_MM=buchungsmonat,KOM_IST_MENGE=menge
+	WHERE KOM_SAMMEL_ABNR=sammelAbNr AND KOM_ABNR=komAbNr;
+
+	UPDATE PLRV11.ZUS_SAMMEL_KOPF SET SAK_KORR_KZ='J',SAK_BUCH_MM =buchungsmonat,SAK_MENGE_IST=menge
+	WHERE SAK_SANR=sammelAbNr;
+
+
+Kennzeichen Praemie stzen:
+
+	UPDATE PLRV11.ZUS_KOMMISSION SET KOM_KZ_PRAEMIE='N' WHERE KOM_ABNR=abNr AND KOM_ART_NR=artNr;
