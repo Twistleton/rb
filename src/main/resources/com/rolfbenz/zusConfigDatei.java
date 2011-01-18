@@ -34,6 +34,9 @@ public class zusConfigDatei extends configDatei {
 	private String lsEndung			 = new String();
 	private String lsDrucker                 = new String();
 	private String lsDruckPfad               = new String();
+    private String vsPfad = new String();
+    private String vsEndung = new String();
+    private String vsDrucker = new String();
 	
 
 	public zusConfigDatei() {
@@ -101,14 +104,23 @@ public class zusConfigDatei extends configDatei {
 	public String getQMPfad() {
 		return qmPfad;
 	}
+    public String getVSPfad() {
+		return vsPfad;
+	}
 	public String getQMEndung() {
 		return qmEndung;
+	}
+    public String getVSEndung() {
+		return vsEndung;
 	}
 	public String getQMRWPEndung() {
 		return qmRWPEndung;
 	}
 	public String getQMDrucker() {
 		return qmDrucker;
+	}
+    public String getVSDrucker() {
+		return vsDrucker;
 	}
 	public String getBqsPfad() {
 		return bqsPfad;
@@ -195,7 +207,13 @@ public class zusConfigDatei extends configDatei {
 				lsDrucker = aktToken.substring(aktToken.indexOf(":")+1);
 			} else if (aktToken.substring(0,aktToken.indexOf(":")).compareTo("lsDruckPfad")==0) {
 				lsDruckPfad = aktToken.substring(aktToken.indexOf(":")+1);
-			} 
+			} else if (aktToken.substring(0,aktToken.indexOf(":")).compareTo("vsPfad")==0) {
+				vsPfad = aktToken.substring(aktToken.indexOf(":")+1);
+			} else if (aktToken.substring(0,aktToken.indexOf(":")).compareTo("vsEndung")==0) {
+				vsEndung = aktToken.substring(aktToken.indexOf(":")+1);
+			} else if (aktToken.substring(0,aktToken.indexOf(":")).compareTo("vsDrucker")==0) {
+				vsDrucker = aktToken.substring(aktToken.indexOf(":")+1);
+			}
 		}
 		return retString;
 	}

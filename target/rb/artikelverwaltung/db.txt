@@ -1,0 +1,359 @@
+ ##########################################################
+ #    						          #
+ # PROJEKT LEDERSTEUERSTAND-TEILPROJEKT ARTIKELVERWALTUNG #
+ #						          #
+ # README-DATEI						  #
+ # erstellt am: 09.12.04				  #
+ # erstellt von: Ralph Sindlinger			  #
+ # letzte Aenderung: 18.02.2005  			  #
+ #							  #
+ ##########################################################
+
+
+ Verwendete Tabellen:
+ --------------------
+
+ PLR_ART_KOPF
+ ------------
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ART_NR                                    NOT NULL NUMBER(10)
+ ART_BEZ                                   NOT NULL VARCHAR2(24)
+ ART_SPERR_KZ                              NOT NULL VARCHAR2(1)
+ ART_LIEF_KKZ                                       VARCHAR2(4)
+ ART_CUT_FHG                               NOT NULL VARCHAR2(1)
+ ART_MAN_ZS                                NOT NULL VARCHAR2(1)
+ ART_ZS_SYS                                NOT NULL NUMBER(2)
+ ART_SPERRDAT                                       DATE
+
+
+ PLR_ART_ZUSAM
+ -------------
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ AZS_ART_NR                                NOT NULL NUMBER(10)
+ AZS_BEZ_TYP                               NOT NULL NUMBER(2)
+ AZS_BEZ_MAT                               NOT NULL VARCHAR2(24)
+ AZS_PROZ_ANTT                             NOT NULL NUMBER(3)
+
+
+ PLR_ART_PRIO
+ ------------
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ APR_ART_NR                                NOT NULL NUMBER(10)
+ APR_PRIO                                  NOT NULL NUMBER(2)
+ APR_PRODSYS                               NOT NULL NUMBER(2)
+ APR_SYSAKTIV                              NOT NULL VARCHAR2(1)
+
+
+ ZUS_MATBEZ
+ ----------
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ AMB_MAT_NR                                NOT NULL NUMBER(2)
+ AMB_MAT_KZBEZ                             NOT NULL VARCHAR2(3)
+ AMB_MAT_BEZ                               NOT NULL VARCHAR2(32)
+
+
+ BDE_PUFPL
+ ---------
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PP_PF_PLATZ                               NOT NULL VARCHAR2(11)
+ PP_PFNR                                   NOT NULL NUMBER(8)
+ PP_PFZONE                                          NUMBER(2)
+ PP_ABNR                                            NUMBER(6)
+ PP_AB2                                             NUMBER(6)
+ PP_AB3                                             NUMBER(6)
+ PP_FS                                              VARCHAR2(11)
+ PP_KZ                                              VARCHAR2(1)
+ PP_ZUTEIL_KZ                                       VARCHAR2(1)
+
+
+ ZUS_REST_RESERV
+ ---------------
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ RES_ID                                    NOT NULL NUMBER(4)
+ RES_ABNR                                           NUMBER(6)
+ RES_ART_NR                                NOT NULL NUMBER(10)
+ RES_PROG_NR                                        NUMBER(3)
+ RES_CHARG_NR                                       NUMBER(10)
+ RES_KZ_BS                                          VARCHAR2(1)
+ RES_FUNGIZID                                       VARCHAR2(1)
+ RES_QM_BRUTTO                             NOT NULL NUMBER(10,2)
+ RES_REST_KZ                               NOT NULL VARCHAR2(1)
+ RES_RESERV_KZ                             NOT NULL VARCHAR2(1)
+ RES_RES_LAGERORT                                   NUMBER(11)
+ RES_BEMERK                                         VARCHAR2(50)
+ RES_LAGER_KZ                              NOT NULL VARCHAR2(1)
+ RES_CUTTER_KZ                             NOT NULL VARCHAR2(1)
+ RES_MANUELL_KZ                            NOT NULL VARCHAR2(1)
+ RES_STATUS                                NOT NULL NUMBER(2)
+ RES_ANLAGE_DAT                            NOT NULL DATE
+ RES_LIEF_KKZ					    VARCHAR(4)
+
+
+ PLR_PRG_SPERR
+ -------------
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ PRG_PRG                                   NOT NULL NUMBER(3)
+ PRG_SPERRDAT                                       DATE
+
+
+ JSP-Files
+ ---------
+
+ anlegen.jsp
+ anlegen_maske.jsp
+ anzeigen.jsp
+ anzeige_cutter.jsp
+ anzeige_manuell.jsp
+ anzeige_gesperrte.jsp
+ anzeige_gesp_prog.jsp
+ bezmat_anlegen.jsp
+ bezmat_anzeigen.jsp
+ bezmat_maske.jsp
+ blank.html
+ cutsetzen.jsp
+ eingabe.html
+ index.html
+ loeschen_confirm.jsp
+ loeschen.jsp
+ navi_browse.jsp
+ navi.jsp
+ prioset.jsp
+ prog_sperren.jsp
+ prog_sperrmaske.jsp
+ reservierung_anlegen.jsp
+ reservierung.jsp
+ reservierungsverw.jsp
+ rest_anlegen.jsp
+ resteverw.jsp
+ rest.jsp
+ sperren.jsp
+
+
+ 01.)anlegen.jsp
+ --------------
+ -Artikel neu anlegen
+ POST-Daten von 'anlegen_maske.jsp' werden verarbeitet und in DB-Tabellen eingetragen
+ SQL: 
+	INSERT INTO PLRV11.PLR_ART_KOPF (ART_NR,ART_BEZ,ART_SPERR_KZ,ART_LIEF_KKZ,ART_CUT_FHG,ART_MAN_ZS) VALUES(...)
+	INSERT INTO PLRV11.PLR_ART_ZUSAM (AZS_ART_NR,AZS_BEZ_TYP,AZS_BEZ_MAT,AZS_PROZ_ANTT) VALUES (...) 
+
+
+ 02.)anlegen_maske.jsp
+ --------------------
+ -Artikel neu anlegen
+ Eingabemaske fuer Artikeldaten
+ SQL:
+	SELECT AMB_MAT_BEZ,AMB_MAT_KZBEZ FROM PLRV11.ZUS_MATBEZ
+
+
+ 03.)anzeigen.jsp
+ ----------------
+ -Artikeldaten anzeigen
+ SQL:
+	SELECT * FROM PLRV11.PLR_ART_KOPF  where ART_NR=(...)
+	SELECT * FROM PLRV11.PLR_ART_ZUSAM where AZS_ART_NR=(...)
+
+ 
+03a.)anzeige_gesperrte.jsp
+ --------------------------
+ -Gesperrte Artikel anzeigen
+ SQL:
+	 SELECT ART_NR,ART_BEZ,ART_SPERR_KZ FROM PLRV11.PLR_ART_KOPF  WHERE ART_SPERR_KZ='J' ORDER BY ART_NR
+
+
+ 04.)bezmat_anlegen.jsp
+ ---------------------
+ -Rohstoff neu anlegen
+ POST-Daten von 'bezmat_maske.jsp' werden verarbeitet und in DB-Tabellen eingetragen
+ SQL:
+	INSERT INTO PLRV11.ZUS_MATBEZ (amb_mat_nr,amb_mat_kzbez,amb_mat_bez) VALUES (...)
+
+
+ 05.)bezmat_anzeigen.jsp
+ ----------------------
+ -Rohstoffe anzeigen
+ SQL:
+	SELECT * FROM PLRV11.ZUS_MATBEZ WHERE AMB_MAT_NR <> 1 ORDER BY AMB_MAT_KZBEZ
+
+
+ 06.)bezmat_maske.jsp
+ -------------------
+ -Rohstoff neu anlegen
+ Eingabemaske fuer Rohstoffdaten
+ SQL:
+	SELECT MAX(AMB_MAT_NR) AS value FROM  PLRV11.ZUS_MATBEZ
+
+
+ 07.)blank.html
+ -------------
+ -Startseite 'ROLF BENZ Artikelverwaltung'
+
+
+ 08.)cutsetzen.jsp
+ ----------------
+ -Aendern des Artikelkennzeichens fuer Cutterfaehigkeit bzw. Manuellen Zuschnitt
+ SQL:
+	UPDATE PLRV11.PLR_ART_KOPF SET ART_MAN_ZS='J',ART_CUT_FHG='N' WHERE ART_NR=(...)
+	UPDATE PLRV11.PLR_ART_KOPF SET ART_MAN_ZS='N',ART_CUT_FHG='J' WHERE ART_NR=(...)
+
+
+ 09.)eingabe.html
+ ---------------
+ -Eingabefeld fuer Artikelnummer
+
+
+ 10.)index.html
+ --------------
+ -Startseite
+ Legt das Frameset fest
+
+
+ 11.)loeschen_confirm.jsp
+ ------------------------
+ -Loeschbestaetigungsformular
+ Artikeldaten von 'anzeigen.jsp' werden vor dem Loeschen zur Ueberpruefung angezeigt
+ SQL:
+	SELECT RES_ART_NR,RES_QM_BRUTTO,RES_RES_LAGERORT,RES_STATUS,RES_ID
+        FROM PLRV11.ZUS_REST_RESERV WHERE RES_ART_NR=(...) AND RES_ID=(...)
+
+	SELECT * FROM PLRV11.PLR_ART_KOPF WHERE ART_NR=(...)
+
+	SELECT * FROM PLRV11.PLR_ART_ZUSAM where AZS_ART_NR=(...)
+
+
+ 12.)loeschen.jsp
+ ----------------
+ -Artikel- bzw. Rest- oder Reservierungsdaten loeschen
+ POST-Daten von 'loeschen_confirm.jsp' werden verarbeitet,Datensaetze werden aus Tabellen geloescht
+ SQL:
+	DELETE FROM PLRV11.ZUS_REST_RESERV WHERE RES_ART_NR=(...) AND RES_ID=(...)
+	UPDATE PLRV11.BDE_PUFPL SET PP_KZ='N' WHERE PP_PF_PLATZ=(...)
+
+	DELETE FROM PLRV11.PLR_ART_KOPF WHERE ART_NR=(...)
+	DELETE FROM PLRV11.PLR_ART_ZUSAM WHERE AZS_ART_NR=(...)
+	
+
+ 13.)navi.jsp
+ ------------
+ -Navigationsleiste
+ Zwei Bereiche: Anlegen und Anzeigen
+
+
+ 14.)navi_browse.jsp
+ -------------------
+ -Navigationsleiste mit Artikelnummernbrowser
+ SQL:
+	SELECT ART_NR,ART_NR FROM PLRV11.PLR_ART_KOPF
+
+
+ 15.)prioset.jsp
+ ---------------
+ -Priorisierungsverwaltung: IN ARBEIT
+
+
+ 16.)prog_sperren.jsp
+ --------------------
+ -Programme sperren und wieder freigeben
+ SQL:
+	INSERT INTO PLRV11.PLR_PRG_SPERR (PRG_PRG,PRG_SPERRDAT) VALUES(...)    
+	DELETE FROM PLRV11.PLR_PRG_SPERR WHERE PRG_PRG=(...) 	
+
+ 17.)prog_sperr_maske.jsp
+ ------------------------
+ -Eingabemaske um Programme zu sperren oder freizugeben
+ SQL:
+	SELECT PRG_PRG,PRG_PRG FROM PLRV11.PLR_PRG_SPERR
+
+
+ 18.)reservierung_anlegen.jsp
+ ----------------------------
+ -Reservierungseintrag in Datenbanktabelle anlegen
+ Daten von 'reservierung.jsp' werden in Tabelle eingetragen
+ SQL:
+	SELECT MAX(RES_ID) AS maxID FROM  PLRV11.ZUS_REST_RESERV
+	SELECT count(RES_ID) as count FROM  PLRV11.ZUS_REST_RESERV
+	SELECT RES_ID as ID FROM  PLRV11.ZUS_REST_RESERV order by RES_ID ASC
+	
+	INSERT INTO PLRV11.ZUS_REST_RESERV 
+	(RES_ID,RES_ABNR,RES_ART_NR,RES_PROG_NR,RES_CHARG_NR,RES_FUNGIZID,RES_QM_BRUTTO,RES_RESERV_KZ,
+       	 RES_REST_KZ,RES_RES_LAGERORT,RES_BEMERK,RES_LAGER_KZ,RES_CUTTER_KZ,RES_MANUELL_KZ,RES_STATUS,RES_ANLAGE_DAT,RES_LIEF_KKZ)
+	VALUES (...)
+
+	UPDATE PLRV11.BDE_PUFPL SET PP_KZ='J' WHERE PP_PF_PLATZ=(...)
+
+
+ 19.)reservierung.jsp
+ --------------------
+ -Eingabemaske fuer Reservierungsdaten
+ SQL:
+	SELECT * FROM PLRV11.PLR_ART_KOPF  where ART_NR=(...)
+	SELECT * FROM PLRV11.PLR_ART_ZUSAM where AZS_ART_NR=(...)
+	SELECT PP_PF_PLATZ,PP_PF_PLATZ FROM PLRV11.BDE_PUFPL WHERE PP_PFNR=10244400 AND PP_KZ='N'
+        SELECT RES_ABNR,RES_PROG_NR,RES_CHARG_NR,RES_QM_BRUTTO,RES_RES_LAGERORT,RES_STATUS,RES_ID,RES_LIEF_KKZ
+	       FROM PLRV11.ZUS_REST_RESERV WHERE RES_RESERV_KZ='J' AND RES_ART_NR=(...) ORDER BY RES_ART_NR
+
+ 20.)reservierungsverw.jsp
+ -------------------------
+ -Anzeige und Loeschmoeglichkeit fuer Reservierungen
+ SQL:
+	SELECT RES_ART_NR,RES_ABNR,RES_PROG_NR,RES_QM_BRUTTO,RES_RES_LAGERORT,RES_STATUS,RES_ID
+	FROM PLRV11.ZUS_REST_RESERV WHERE RES_RESERV_KZ='J' ORDER BY RES_ART_NR
+
+
+ 21.)rest_anlegen.jsp
+ --------------------
+ -Resteintrag in Datenbanktabelle anlegen
+ Daten von 'rest.jsp' werden in Tabelle eingetragen
+ SQL:
+	SELECT MAX(RES_ID) AS maxID FROM  PLRV11.ZUS_REST_RESERV
+	SELECT count(RES_ID) as count FROM  PLRV11.ZUS_REST_RESERV
+        SELECT RES_ID as ID FROM  PLRV11.ZUS_REST_RESERV order by RES_ID ASC
+	
+	INSERT INTO PLRV11.ZUS_REST_RESERV 
+	(RES_ID,RES_ART_NR,RES_CHARG_NR,RES_QM_BRUTTO,RES_REST_KZ,RES_RESERV_KZ,RES_RES_LAGERORT,
+	 RES_BEMERK,RES_LAGER_KZ,RES_CUTTER_KZ,RES_MANUELL_KZ,RES_STATUS,RES_ANLAGE_DAT,RES_LIEF_KKZ)
+  	VALUES (...)
+
+	UPDATE PLRV11.BDE_PUFPL SET PP_KZ='J' WHERE PP_PF_PLATZ=(...)
+
+
+ 22.)rest.jsp
+ ------------
+ -Eingabemaske fuer Restdaten
+ SQL:
+        SELECT * FROM PLRV11.PLR_ART_KOPF  where ART_NR=(...)
+	SELECT * FROM PLRV11.PLR_ART_ZUSAM where AZS_ART_NR=(...)
+	SELECT PP_PF_PLATZ,PP_PF_PLATZ FROM PLRV11.BDE_PUFPL WHERE PP_PFNR=10244300 AND PP_KZ='N'
+	SELECT RES_CHARG_NR,RES_QM_BRUTTO,RES_RES_LAGERORT,RES_STATUS,RES_ID,RES_LIEF_KKZ FROM PLRV11.ZUS_REST_RESERV
+	       WHERE RES_REST_KZ='J' AND RES_ART_NR=(...) ORDER BY RES_ART_NR
+
+
+ 23.)resteverw.jsp
+ -----------------
+ -Anzeige und Loeschmoeglichkeit fuer Reservierungen
+ SQL:
+	SELECT RES_ART_NR,RES_QM_BRUTTO,RES_RES_LAGERORT,RES_STATUS,RES_ID
+	FROM PLRV11.ZUS_REST_RESERV WHERE RES_REST_KZ='J' ORDER BY RES_ART_NR
+
+
+ 24.)sperren.jsp
+ ---------------
+ -Aendert das Sperrkennzeichen am Artikel
+ SQL:
+	UPDATE PLRV11.PLR_ART_KOPF SET ART_SPERR_KZ='J',ART_SPERRDAT=SYSDATE WHERE ART_NR=(...)
+	UPDATE PLRV11.PLR_ART_KOPF SET ART_SPERR_KZ='N' WHERE ART_NR=(...)
+
+
+      
+		
+	  
+	
+ 
+	

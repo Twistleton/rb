@@ -1,0 +1,11 @@
+08.11.05
+--------
+
+Host Datensatz bekommt als PersNr 0349 geliefert, wenn KOM_KZ_MF = 'M' oder 'F'
+(Auftrag Roscher/-->H.Koehn)
+
+04.06.07
+--------
+
+Host-Datensatz bekommt ZBL-Kennzeichen mitgeliefert
+(Stahr/Köhn)
